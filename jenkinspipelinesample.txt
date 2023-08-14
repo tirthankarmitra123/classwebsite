@@ -1,0 +1,39 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Clone') {
+            steps {
+                echo 'Clone the Repo'
+                git branch: 'main', url: 'https://github.com/devclass1/classwebsite.git'
+            }
+        }
+		stage('check workspace') {
+            steps {
+                sh'''
+                echo 'List all files under project2 workspace'
+                sudo ls -l /var/lib/jenkins/workspace/project2/
+                '''
+                
+            }
+        }
+		stage('copy files') {
+            steps {
+                sh'''
+                echo 'copy files'
+                sudo cp -r /var/lib/jenkins/workspace/project2/ /var/www/html/
+                
+                '''
+            }
+        }
+		stage('Stage4') {
+            steps {
+                sh'''
+                echo 'check files'
+                sudo ls -l /var/www/html/
+                '''
+                
+            }
+        }
+}
+}
